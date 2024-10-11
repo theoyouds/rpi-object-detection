@@ -15,6 +15,7 @@ import time
 import numpy as np
 from picamera2 import Picamera2
 
+print('Imported')
 
 CAMERA_DEVICE_ID = 0
 IMAGE_WIDTH = 320
@@ -52,16 +53,20 @@ def visualize_fps(image, fps: int):
 if __name__ == "__main__":
     try:
 
+        print('Starting cam')
+
         picam2 = Picamera2()
         picam2.start()
 
+        print('Cam started')
+
         # image can be passed to OpenCV/TensorFlow
         # create video capture
-        cap = cv2.VideoCapture(CAMERA_DEVICE_ID)
+#        cap = cv2.VideoCapture(CAMERA_DEVICE_ID)
 
         # set resolution to 320x240 to reduce latency
-        cap.set(3, IMAGE_WIDTH)
-        cap.set(4, IMAGE_HEIGHT)
+ #       cap.set(3, IMAGE_WIDTH)
+  #      cap.set(4, IMAGE_HEIGHT)
 
         # Loop to continuously get images
         while True:
@@ -71,9 +76,12 @@ if __name__ == "__main__":
 
             # Read the frames from a camera
             frame = picam2.capture_array()
+            print('In loop')
 
             # show image
             cv2.imshow("frame", visualize_fps(frame, fps))
+
+            print('past imshow')
 
             # ----------------------------------------------------------------------
             # record end time
