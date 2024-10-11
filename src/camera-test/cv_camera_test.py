@@ -13,6 +13,8 @@
 import cv2
 import time
 import numpy as np
+from picamera2 import Picamera2
+
 
 CAMERA_DEVICE_ID = 0
 IMAGE_WIDTH = 320
@@ -32,16 +34,28 @@ def visualize_fps(image, fps: int):
     font_thickness = 1
 
     # Draw the FPS counter
-    fps_text = 'FPS = {:.1f}'.format(fps)
+    fps_text = "FPS = {:.1f}".format(fps)
     text_location = (left_margin, row_size)
-    cv2.putText(image, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,
-                font_size, text_color, font_thickness)
+    cv2.putText(
+        image,
+        fps_text,
+        text_location,
+        cv2.FONT_HERSHEY_PLAIN,
+        font_size,
+        text_color,
+        font_thickness,
+    )
 
     return image
 
 
 if __name__ == "__main__":
     try:
+
+        picam2 = Picamera2()
+        picam2.start()
+
+        # image can be passed to OpenCV/TensorFlow
         # create video capture
         cap = cv2.VideoCapture(CAMERA_DEVICE_ID)
 
@@ -56,10 +70,10 @@ if __name__ == "__main__":
             start_time = time.time()
 
             # Read the frames from a camera
-            _, frame = cap.read()
+            frame = picam2.capture_array()
 
             # show image
-            cv2.imshow('frame', visualize_fps(frame, fps))
+            cv2.imshow("frame", visualize_fps(frame, fps))
 
             # ----------------------------------------------------------------------
             # record end time
