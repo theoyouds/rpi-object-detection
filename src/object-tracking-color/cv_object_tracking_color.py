@@ -172,12 +172,9 @@ if __name__ == "__main__":
             # Convert the image to hsv space and find range of colors
             hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
             cv2.namedWindow("frame")
-            cv2.setMouseCallback("frame", on_mouse_click, frame)
+            # cv2.setMouseCallback("frame", on_mouse_click, frame)
 
-            # Uncomment this for RED tag
-            thresh = cv2.inRange(
-                hsv, np.array((120, 80, 80)), np.array((180, 255, 255))
-            )
+            thresh = cv2.inRange(hsv, np.array((12, 61, 64)), np.array((175, 209, 91)))
 
             # find the color using a color threshhold
             if colors:
