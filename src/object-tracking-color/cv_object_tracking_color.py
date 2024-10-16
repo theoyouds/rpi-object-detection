@@ -174,7 +174,9 @@ if __name__ == "__main__":
             cv2.setMouseCallback("frame", on_mouse_click, frame)
 
             # Uncomment this for RED tag
-            # thresh = cv2.inRange(hsv,np.array((120, 80, 80)), np.array((180, 255, 255)))
+            thresh = cv2.inRange(
+                hsv, np.array((120, 80, 80)), np.array((180, 255, 255))
+            )
 
             # find the color using a color threshhold
             if colors:
