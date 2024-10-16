@@ -169,7 +169,7 @@ if __name__ == "__main__":
             frame = cv2.blur(frame, (3, 3))
 
             # Convert the image to hsv space and find range of colors
-            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+            hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
             cv2.namedWindow("frame")
             cv2.setMouseCallback("frame", on_mouse_click, frame)
 
