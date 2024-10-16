@@ -177,20 +177,20 @@ if __name__ == "__main__":
             thresh = cv2.inRange(hsv, np.array((12, 61, 64)), np.array((175, 209, 91)))
 
             # find the color using a color threshhold
-            if colors:
-                # find max & min h, s, v
-                minh = min(c[0] for c in colors)
-                mins = min(c[1] for c in colors)
-                minv = min(c[2] for c in colors)
-                maxh = max(c[0] for c in colors)
-                maxs = max(c[1] for c in colors)
-                maxv = max(c[2] for c in colors)
+            # if colors:
+            #     # find max & min h, s, v
+            #     minh = min(c[0] for c in colors)
+            #     mins = min(c[1] for c in colors)
+            #     minv = min(c[2] for c in colors)
+            #     maxh = max(c[0] for c in colors)
+            #     maxs = max(c[1] for c in colors)
+            #     maxv = max(c[2] for c in colors)
 
-                print("New HSV threshold: ", (minh, mins, minv), (maxh, maxs, maxv))
-                hsv_min = np.array((minh, mins, minv))
-                hsv_max = np.array((maxh, maxs, maxv))
+            #     print("New HSV threshold: ", (minh, mins, minv), (maxh, maxs, maxv))
+            #     hsv_min = np.array((minh, mins, minv))
+            #     hsv_max = np.array((maxh, maxs, maxv))
 
-            thresh = cv2.inRange(hsv, hsv_min, hsv_max)
+            # thresh = cv2.inRange(hsv, hsv_min, hsv_max)
             thresh2 = thresh.copy()
 
             # find contours in the threshold image
