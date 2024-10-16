@@ -93,7 +93,13 @@ while True:
             print(f"Centre point: {centre_point}")
             end_point = (centre_point[0] + vector[0], centre_point[1] + vector[1])
             print(f"End point: {end_point}")
-            # cv2.line(img, centre_point, end_point, (0, 255, 0), 2)
+            cv2.line(
+                img,
+                (centre_point[0], centre_point[1]),
+                (end_point[0], end_point[1]),
+                (0, 255, 0),
+                2,
+            )
 
     # Display
     cv2.imshow("img", visualize_fps(img, fps))
