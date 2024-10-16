@@ -17,6 +17,9 @@ from picamera2 import Picamera2
 
 fps = 0
 
+IMAGE_WIDTH = 320
+IMAGE_HEIGHT = 240
+
 
 def visualize_fps(image, fps: int):
     if len(np.shape(image)) < 3:
@@ -45,13 +48,19 @@ def visualize_fps(image, fps: int):
     return image
 
 
+def CalculateVector(
+    x: int, y: int, img_width: int, img_height: int
+) -> tuple[float, float]:
+    x_centre = img_width / 2
+    y_centre = img_height / 2
+
+    vector = (x - x_centre, y - y_centre)
+
+    return vector
+
+
 # Load the cascade
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-
-# To capture video from webcam.
-cap = cv2.VideoCapture(0)
-# To use a video file as input
-# cap = cv2.VideoCapture('filename.mp4')
 
 picam2 = Picamera2()
 picam2.start()
@@ -69,8 +78,17 @@ while True:
     # Detect the faces
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
     # Draw the rectangle around each face
+    max_face_area = 0
     for x, y, w, h in faces:
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+        if (w * h) > max_face_area:
+            max_face_area = w * h
+            vector = CalculateVector(x, y, np.shape(img)[1], np.shape(img)[0])
+            centre_point = (np.shape(img)[1] / 2, np.shape(img)[0] / 2)
+            end_point = (centre_point[0] + vector[0], centre_point[1] + vector[1])
+            cv2.line(img, centre_point, end_point, (0, 255, 0), 2)
+
     # Display
     cv2.imshow("img", visualize_fps(img, fps))
     # ----------------------------------------------------------------------
@@ -84,6 +102,3 @@ while True:
     k = cv2.waitKey(30) & 0xFF
     if k == 27:
         break
-
-# Release the VideoCapture object
-cap.release()
