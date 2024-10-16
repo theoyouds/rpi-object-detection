@@ -49,12 +49,15 @@ def visualize_fps(image, fps: int):
 
 
 def CalculateVector(
-    x: int, y: int, img_width: int, img_height: int
+    x: int, y: int, w: int, h: int, img_width: int, img_height: int
 ) -> tuple[float, float]:
-    x_centre = img_width / 2
-    y_centre = img_height / 2
+    frame_x_centre = img_width / 2
+    frame_y_centre = img_height / 2
 
-    vector = (x - x_centre, y - y_centre)
+    face_x_centre = x + w / 2
+    face_y_centre = y + h / 2
+
+    vector = (face_x_centre - frame_x_centre, face_y_centre - frame_y_centre)
 
     return vector
 
@@ -84,7 +87,7 @@ while True:
 
         if (w * h) > max_face_area:
             max_face_area = w * h
-            vector = CalculateVector(x, y, np.shape(img)[1], np.shape(img)[0])
+            vector = CalculateVector(x, y, w, h, np.shape(img)[1], np.shape(img)[0])
             print(f"Vector: {vector}")
             centre_point = (np.shape(img)[1] / 2, np.shape(img)[0] / 2)
             print(f"Centre point: {centre_point}")
