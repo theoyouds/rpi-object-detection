@@ -166,6 +166,7 @@ if __name__ == "__main__":
             start_time = time.time()
             # Read the frames frome a camera
             frame = picam2.capture_array()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             frame = cv2.blur(frame, (3, 3))
 
             # Convert the image to hsv space and find range of colors
