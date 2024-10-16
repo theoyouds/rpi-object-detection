@@ -85,9 +85,12 @@ while True:
         if (w * h) > max_face_area:
             max_face_area = w * h
             vector = CalculateVector(x, y, np.shape(img)[1], np.shape(img)[0])
+            print(f"Vector: {vector}")
             centre_point = (np.shape(img)[1] / 2, np.shape(img)[0] / 2)
+            print(f"Centre point: {centre_point}")
             end_point = (centre_point[0] + vector[0], centre_point[1] + vector[1])
-            cv2.line(img, centre_point, end_point, (0, 255, 0), 2)
+            print(f"End point: {end_point}")
+            # cv2.line(img, centre_point, end_point, (0, 255, 0), 2)
 
     # Display
     cv2.imshow("img", visualize_fps(img, fps))
