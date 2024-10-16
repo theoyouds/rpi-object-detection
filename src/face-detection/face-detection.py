@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import time
 
+from picamera2 import Picamera2
+
 # ------------------------------------------------------------------------------
 # automaticdai
 # YF Robotics Labrotary
@@ -28,37 +30,49 @@ def visualize_fps(image, fps: int):
     font_thickness = 1
 
     # Draw the FPS counter
-    fps_text = 'FPS = {:.1f}'.format(fps)
+    fps_text = "FPS = {:.1f}".format(fps)
     text_location = (left_margin, row_size)
-    cv2.putText(image, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,
-                font_size, text_color, font_thickness)
+    cv2.putText(
+        image,
+        fps_text,
+        text_location,
+        cv2.FONT_HERSHEY_PLAIN,
+        font_size,
+        text_color,
+        font_thickness,
+    )
 
     return image
 
 
 # Load the cascade
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
 # To capture video from webcam.
 cap = cv2.VideoCapture(0)
 # To use a video file as input
 # cap = cv2.VideoCapture('filename.mp4')
 
+picam2 = Picamera2()
+picam2.start()
+
 while True:
     # ----------------------------------------------------------------------
     # record start time
     start_time = time.time()
     # Read the frame
-    _, img = cap.read()
+    img = picam2.capture_array()
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
     # Convert to grayscale
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # Detect the faces
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
     # Draw the rectangle around each face
-    for (x, y, w, h) in faces:
-        cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+    for x, y, w, h in faces:
+        cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
     # Display
-    cv2.imshow('img', visualize_fps(img, fps))
+    cv2.imshow("img", visualize_fps(img, fps))
     # ----------------------------------------------------------------------
     # record end time
     end_time = time.time()
@@ -67,8 +81,8 @@ while True:
     fps = 1.0 / seconds
     print("Estimated fps:{0:0.1f}".format(fps))
     # Stop if escape key is pressed
-    k = cv2.waitKey(30) & 0xff
-    if k==27:
+    k = cv2.waitKey(30) & 0xFF
+    if k == 27:
         break
 
 # Release the VideoCapture object
