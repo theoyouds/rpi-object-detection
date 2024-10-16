@@ -79,13 +79,14 @@ cap = cv2.VideoCapture(0)
 # Load our image template, this is our reference image
 image_template = cv2.imread("simple.png", 0)
 
+picam2 = Picamera2()
+picam2.start()
+
 while True:
     # ----------------------------------------------------------------------
     # record start time
     start_time = time.time()
     # Get webcam images
-    picam2 = Picamera2()
-    picam2.start()
 
     frame = picam2.capture_array()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
